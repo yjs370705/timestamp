@@ -1,0 +1,17 @@
+{
+    "name": "yjs\/timerange",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yjs",
+            "email": "2849694489@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Yjs\\Timerange\\": "src"
+        }
+    }
+}

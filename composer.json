@@ -1,6 +1,6 @@
 {
     "name": "yjs\/timerange",
-    "description": "Package description here.",
+    "description": "日期范围获取",
     "license": "MIT",
     "authors": [
         {
@@ -8,10 +8,12 @@
             "email": "2849694489@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.0"
+    },
     "autoload": {
         "psr-4": {
-            "Yjs\\Timerange\\": "src"
+            "Timerange\\": "src/"
         }
     }
 }

@@ -1,28 +1,36 @@
-<h1 align="center"> timerange </h1>
+<h1 align="center"> 日期获取 </h1>
 
-<p align="center"> .</p>
+<p align="center"> </p>
 
 
-## Installing
+## 安装
 
 ```shell
 $ composer require yjs/timerange -vvv
 ```
 
-## Usage
+## 使用
+```
+//获取星期
+$week = RangeDate::set(2020,true,'Y-m-d')->getWeek();
+//获取月份
+$month = RangeDate::set(2020,true,'Y-m-d H:i:s')->getMonth($start);
+//获取季度
+$quarter = RangeDate::set(2020,true,'Y-m-d')->getQuarter($start);
+//年份
+$week = RangeDate::set([2020,2022],true,'Y-m-d')->getYear();
+```
+set()参数：
 
-TODO
+1、设置年份，可以是四位数的年份也可以是一个数组[2020,2022]意思是获取2020年到2022年的日期，不设为当前年
 
-## Contributing
+2、是否格式化时间戳默认不格式化
 
-You can contribute in one of three ways:
+3、格式化时间戳的格式，默认Y-m-d
 
-1. File bug reports using the [issue tracker](https://github.com/yjs/timerange/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/yjs/timerange/issues).
-3. Contribute new features or update the wiki.
+getWeek()可以传入一个数字意思是从第几周开始
 
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
-
+工作中经常要获取这些信息对数据进行分析，其他方法会慢慢进行完善；getYear()方法不需要传
 ## License
 
 MIT

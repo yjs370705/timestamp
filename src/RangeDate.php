@@ -24,7 +24,7 @@ class RangeDate
         if (!self::$instance instanceof self) {
             self::$instance = new self();
         }
-        self::$year = $year ? $year : date('Y');
+        self::$year = $year ?? date('Y');
         self::$formatTimestamp = $formatTimestamp;
         self::$format = $format;
         return self::$instance;
@@ -34,7 +34,7 @@ class RangeDate
      * @param int $strat 从第几周开始计算
      * @return array|string
      */
-    public function getWeek($start = 1)
+    public function getWeek($start = 1):array
     {
         $year = self::$year;
         if (empty($year)) {
@@ -52,7 +52,7 @@ class RangeDate
         return $weekTime;
     }
 
-    private function baseWeek($year, $start)
+    private function baseWeek($year, $start):array
     {
         $allWeekInYear = date("W", mktime(0, 0, 0, 12, 28, $year));
         $week = [];
@@ -71,7 +71,7 @@ class RangeDate
         return $week;
     }
 
-    public function getMonth($start = 1)
+    public function getMonth($start = 1):array
     {
         $year = self::$year;
         if (empty($year)) {
@@ -89,7 +89,7 @@ class RangeDate
         return $monthTime;
     }
 
-    private function baseMonth($year, $strat)
+    private function baseMonth($year, $strat):array
     {
         $allMonth = date("m", mktime(0, 0, 0, 12, 31, $year));
         $month = [];
@@ -108,7 +108,7 @@ class RangeDate
         return $month;
     }
 
-    public function getQuarter($start = 1)
+    public function getQuarter($start = 1):array
     {
         $year = self::$year;
         if (empty($year)) {
@@ -126,7 +126,7 @@ class RangeDate
         return $quarterTime;
     }
 
-    private function baseQuarter($year, $start)
+    private function baseQuarter($year, $start):array
     {
         $quarterTime = [];
         for ($i = $start; $i <= $this->quarterNum; $i++) {
@@ -145,7 +145,7 @@ class RangeDate
         return $quarterTime;
     }
 
-    public function getYear()
+    public function getYear():array
     {
         $year = self::$year;
         if (empty($year)) {
@@ -163,18 +163,19 @@ class RangeDate
         return $yearTime;
     }
 
-    private function baseYear($year)
+    private function baseYear($year):array
     {
         $yearTime = [];
-        $yearStart = mktime(0,0,0,1,1,$year);
-        $yearEnd = mktime(0,0,0,12,31,$year)+$this->offset - 1;
+        $yearStart = mktime(0, 0, 0, 1, 1, $year);
+        $yearEnd = mktime(0, 0, 0, 12, 31, $year) + $this->offset - 1;
         $yearTime[] = [
             'year' => $year,
             'start' => $yearStart,
-            'end'=>$yearEnd
+            'end' => $yearEnd
         ];
         return $yearTime;
     }
+
     private function __clone()
     {
     }

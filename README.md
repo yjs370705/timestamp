@@ -36,7 +36,7 @@ getYear()方法不需要传参数
 
 PHP版本要求7.0及以上；
 
-##返回
+## 返回
 ```angular2
 $month = RangeDate::set(2020,true,'Y-m-d')->getMonth();
 //获取月份返回格式 其他类似

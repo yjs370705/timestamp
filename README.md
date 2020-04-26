@@ -19,6 +19,8 @@ $month = RangeDate::set(2020,true,'Y-m-d H:i:s')->getMonth($start);
 $quarter = RangeDate::set(2020,true,'Y-m-d')->getQuarter($start);
 //年份
 $week = RangeDate::set([2020,2022],true,'Y-m-d')->getYear();
+//时间段获取
+$hours = RangeTime::set('2020-04-26',true)->getHours('8:30',['08:30','17:00'],['12:30','13:30'],3600);
 ```
 set()参数：
 
@@ -31,6 +33,8 @@ set()参数：
 getWeek()可以传入一个数字意思是从第几周开始
 
 getYear()方法不需要传参数
+
+getHours() 第一个参数为从几点开始，第二个参数为范围获取，第三个参数为排除哪几个时间段，第四个参数为间隔时间，默认一个小时
 
 工作中经常要获取这些信息对数据进行分析，其他方法会慢慢进行完善；
 
@@ -59,95 +63,78 @@ array(12) {
     ["end"]=>
     string(10) "2020-02-29"
   }
-  [2]=>
-  array(3) {
-    ["month"]=>
-    int(3)
-    ["start"]=>
-    string(10) "2020-03-01"
-    ["end"]=>
-    string(10) "2020-03-31"
+}
+$hours = RangeTime::set('2020-04-26',true)->getHours('8:30',['08:30','17:00'],['12:30','13:30'],3600);
+//获取时间段返回格式
+array(2) {
+  ["hours"]=>
+  array(7) {
+    [0]=>
+    string(5) "08:30"
+    [1]=>
+    string(5) "09:30"
+    [2]=>
+    string(5) "10:30"
+    [3]=>
+    string(5) "11:30"
+    [6]=>
+    string(5) "14:30"
+    [7]=>
+    string(5) "15:30"
+    [8]=>
+    string(5) "16:30"
   }
-  [3]=>
-  array(3) {
-    ["month"]=>
-    int(4)
-    ["start"]=>
-    string(10) "2020-04-01"
-    ["end"]=>
-    string(10) "2020-04-30"
-  }
-  [4]=>
-  array(3) {
-    ["month"]=>
-    int(5)
-    ["start"]=>
-    string(10) "2020-05-01"
-    ["end"]=>
-    string(10) "2020-05-31"
-  }
-  [5]=>
-  array(3) {
-    ["month"]=>
-    int(6)
-    ["start"]=>
-    string(10) "2020-06-01"
-    ["end"]=>
-    string(10) "2020-06-30"
-  }
-  [6]=>
-  array(3) {
-    ["month"]=>
-    int(7)
-    ["start"]=>
-    string(10) "2020-07-01"
-    ["end"]=>
-    string(10) "2020-07-31"
-  }
-  [7]=>
-  array(3) {
-    ["month"]=>
-    int(8)
-    ["start"]=>
-    string(10) "2020-08-01"
-    ["end"]=>
-    string(10) "2020-08-31"
-  }
-  [8]=>
-  array(3) {
-    ["month"]=>
-    int(9)
-    ["start"]=>
-    string(10) "2020-09-01"
-    ["end"]=>
-    string(10) "2020-09-30"
-  }
-  [9]=>
-  array(3) {
-    ["month"]=>
-    int(10)
-    ["start"]=>
-    string(10) "2020-10-01"
-    ["end"]=>
-    string(10) "2020-10-31"
-  }
-  [10]=>
-  array(3) {
-    ["month"]=>
-    int(11)
-    ["start"]=>
-    string(10) "2020-11-01"
-    ["end"]=>
-    string(10) "2020-11-30"
-  }
-  [11]=>
-  array(3) {
-    ["month"]=>
-    int(12)
-    ["start"]=>
-    string(10) "2020-12-01"
-    ["end"]=>
-    string(10) "2020-12-31"
+  ["info"]=>
+  array(7) {
+    [0]=>
+    array(2) {
+      ["start"]=>
+      string(5) "08:30"
+      ["end"]=>
+      string(5) "09:29"
+    }
+    [1]=>
+    array(2) {
+      ["start"]=>
+      string(5) "09:30"
+      ["end"]=>
+      string(5) "10:29"
+    }
+    [2]=>
+    array(2) {
+      ["start"]=>
+      string(5) "10:30"
+      ["end"]=>
+      string(5) "11:29"
+    }
+    [3]=>
+    array(2) {
+      ["start"]=>
+      string(5) "11:30"
+      ["end"]=>
+      string(5) "12:29"
+    }
+    [6]=>
+    array(2) {
+      ["start"]=>
+      string(5) "14:30"
+      ["end"]=>
+      string(5) "15:29"
+    }
+    [7]=>
+    array(2) {
+      ["start"]=>
+      string(5) "15:30"
+      ["end"]=>
+      string(5) "16:29"
+    }
+    [8]=>
+    &array(2) {
+      ["start"]=>
+      string(5) "16:30"
+      ["end"]=>
+      string(5) "17:29"
+    }
   }
 }
 ```

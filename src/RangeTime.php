@@ -24,6 +24,10 @@ class RangeTime
         if (!self::$instance instanceof self) {
             self::$instance = new self();
         }
+        $formatType = ['H','H:i','H:i:s'];
+        if (!in_array($format, $formatType)) {
+            throw new \Exception("The param format must in ['H','H:i','H:i:s']");
+        }
         self::$day = $day ?? date('Y-m-d');
         self::$formatTimestamp = $formatTimestamp;
         self::$format = $format;
@@ -41,13 +45,13 @@ class RangeTime
             return 'Please set Date';
         }
         if (count($between) != 2) {
-            return 'The length between the parameters is greater than two';
+            throw new \Exception('The length between the parameters is greater than two');
         }
         $time = [];
         if (is_array($day)) {
             sort($day);
             foreach ($day as $v) {
-                $this->baseGetHours($v, $start, $gap, $between,$except);
+                $time[$v] = $this->baseGetHours($v, $start, $gap, $between,$except);
             }
         } else {
             $time = $this->baseGetHours($day, $start, $gap,$between,$except);
@@ -57,7 +61,6 @@ class RangeTime
 
     private function baseGetHours($day, $start, $gap, $between,$except)
     {
-        echo '<pre>';
         $start = strtotime("{$day} $start");
         $end = strtotime($day)+$this->offset;
         $betweenTmp = [];
@@ -87,28 +90,27 @@ class RangeTime
                 $flag = false;
             }
         }
+
         if (!empty($betweenTmp)) {
-            foreach ($time['info'] as $k=>&$t) {
-                $tmp = self::$formatTimestamp ? strtotime($t['start']) : $t['start'];
-                if (!($tmp >= $betweenTmp[0] && $tmp <= $betweenTmp[1])) {
+            foreach ($time['info'] as $k=>$t) {
+                if (self::$format)
+                $tmp = self::$formatTimestamp ? strtotime("{$day} {$t['start']}") : $t['start'];
+                    if (!($tmp >= $betweenTmp[0] && $tmp <= $betweenTmp[1])) {
                     unset($time['hours'][$k]);
                     unset($time['info'][$k]);
                 }
             }
-
         }
         if (!empty($exceptTime)) {
             foreach ($time['info'] as $k=>&$t) {
-                $tmp = self::$formatTimestamp ? strtotime($t['start']) : $t['start'];
+                $tmp = self::$formatTimestamp ? strtotime("{$day} {$t['start']}") : $t['start'];
                 if (($tmp >= $exceptTime[0] && $tmp <= $exceptTime[1])) {
-//                    var_dump(date("Y-m-d H:i:s",$t['start']));
                     unset($time['hours'][$k]);
                     unset($time['info'][$k]);
                 }
             }
-
         }
-        var_dump($time);
+        return $time;
     }
 
     private function __clone()

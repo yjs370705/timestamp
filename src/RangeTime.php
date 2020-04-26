@@ -83,7 +83,7 @@ class RangeTime
             $time['hours'][] = date(self::$format,$start);
             $time['info'][] = [
                 'start' => self::$formatTimestamp ? date(self::$format,$start) : $start,
-                'end' => self::$formatTimestamp ? date(self::$format,$start + $gap -1) : $start + ($start + $gap -1),
+                'end' => self::$formatTimestamp ? date(self::$format,$start + $gap -1) : $start + ($gap -1),
             ];
             $start += $gap;
             if ($start >= $end) {

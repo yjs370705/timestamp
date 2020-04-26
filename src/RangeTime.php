@@ -44,7 +44,7 @@ class RangeTime
         if (empty($day)) {
             return 'Please set Date';
         }
-        if (count($between) != 2) {
+        if (!empty($between) && count($between) != 2) {
             throw new \Exception('The length between the parameters is greater than two');
         }
         $time = [];

@@ -29,7 +29,6 @@ class RangeDate
         self::$format = $format;
         return self::$instance;
     }
-
     /**
      * @param int $strat 从第几周开始计算
      * @return array|string
@@ -38,7 +37,7 @@ class RangeDate
     {
         $year = self::$year;
         if (empty($year)) {
-            return 'Please set year';
+            return 'Please set Week';
         }
         $weekTime = [];
         if (is_array($year)) {
@@ -75,7 +74,7 @@ class RangeDate
     {
         $year = self::$year;
         if (empty($year)) {
-            return 'Please set year';
+            return 'Please set Month';
         }
         $monthTime = [];
         if (is_array($year)) {
@@ -112,7 +111,7 @@ class RangeDate
     {
         $year = self::$year;
         if (empty($year)) {
-            return 'Please set year';
+            return 'Please set quarter';
         }
         $quarterTime = [];
         if (is_array($year)) {

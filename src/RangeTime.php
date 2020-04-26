@@ -104,7 +104,7 @@ class RangeTime
         if (!empty($exceptTime)) {
             foreach ($time['info'] as $k=>&$t) {
                 $tmp = self::$formatTimestamp ? strtotime("{$day} {$t['start']}") : $t['start'];
-                if (($tmp >= $exceptTime[0] && $tmp <= $exceptTime[1])) {
+                if (($tmp > $exceptTime[0] && $tmp < $exceptTime[1])) {
                     unset($time['hours'][$k]);
                     unset($time['info'][$k]);
                 }

@@ -1,10 +1,11 @@
 <?php
+
 namespace Timerange;
 class RangeDate
 {
     public static $year = null;
-    public static $formatTimestamp = false;
-    public static $format = '';
+    public static $formatTimestamp = false; //是否格式化时间戳
+    public static $format = ''; //日期格式
     private static $instance = null;
     private $quarterNum = 4;
     private $offset = 60 * 60 * 24;
@@ -29,15 +30,17 @@ class RangeDate
         self::$format = $format;
         return self::$instance;
     }
+
     /**
+     * 获取星期
      * @param int $strat 从第几周开始计算
      * @return array|string
      */
-    public function getWeek($start = 1):array
+    public function getWeek($start = 1): array
     {
         $year = self::$year;
         if (empty($year)) {
-            return 'Please set Week';
+            throw new \Exception('Please set Year');
         }
         $weekTime = [];
         if (is_array($year)) {
@@ -51,7 +54,7 @@ class RangeDate
         return $weekTime;
     }
 
-    private function baseWeek($year, $start):array
+    private function baseWeek($year, $start): array
     {
         $allWeekInYear = date("W", mktime(0, 0, 0, 12, 28, $year));
         $week = [];
@@ -61,8 +64,8 @@ class RangeDate
             }
             $everyWeekStartTime = strtotime($year . 'W' . $i);
             $everyWeekEndTime = strtotime('+1 week -1day', $everyWeekStartTime) + $this->offset - 1;
-            $week[] = [
-                'week' => intval($i),
+            $week['date'][] = intval($i);
+            $week['time_range'][intval($i)] = [
                 'start' => self::$formatTimestamp ? date(self::$format, $everyWeekStartTime) : $everyWeekStartTime,
                 'end' => self::$formatTimestamp ? date(self::$format, $everyWeekEndTime) : $everyWeekEndTime,
             ];
@@ -70,12 +73,18 @@ class RangeDate
         return $week;
     }
 
-    public function getMonth($start = 1):array
+    /**
+     * 获取月份
+     * @param int $start
+     * @return array
+     */
+    public function getMonth($start = 1): array
     {
         $year = self::$year;
         if (empty($year)) {
-            return 'Please set Month';
+            return 'Please set Year';
         }
+
         $monthTime = [];
         if (is_array($year)) {
             sort($year);
@@ -88,7 +97,7 @@ class RangeDate
         return $monthTime;
     }
 
-    private function baseMonth($year, $strat):array
+    private function baseMonth($year, $strat): array
     {
         $allMonth = date("m", mktime(0, 0, 0, 12, 31, $year));
         $month = [];
@@ -98,8 +107,8 @@ class RangeDate
             }
             $everyMonthStartTime = strtotime("{$year}-{$i}");
             $everyMonthEndTime = strtotime('+1 month', $everyMonthStartTime) - 1;
-            $month[] = [
-                'month' => intval($i),
+            $month['date'][] = intval($i);
+            $month['time_range'][intval($i)] = [
                 'start' => self::$formatTimestamp ? date(self::$format, $everyMonthStartTime) : $everyMonthStartTime,
                 'end' => self::$formatTimestamp ? date(self::$format, $everyMonthEndTime) : $everyMonthEndTime,
             ];
@@ -107,7 +116,12 @@ class RangeDate
         return $month;
     }
 
-    public function getQuarter($start = 1):array
+    /**
+     * 获取季度
+     * @param int $start
+     * @return array
+     */
+    public function getQuarter($start = 1): array
     {
         $year = self::$year;
         if (empty($year)) {
@@ -125,7 +139,7 @@ class RangeDate
         return $quarterTime;
     }
 
-    private function baseQuarter($year, $start):array
+    private function baseQuarter($year, $start): array
     {
         $quarterTime = [];
         for ($i = $start; $i <= $this->quarterNum; $i++) {
@@ -135,8 +149,8 @@ class RangeDate
                 $everyQuarterStartTime = strtotime("{$year}-$first");
             }
             $everyQuarterEndTime = strtotime('+3 month', $everyQuarterStartTime) - 1;
-            $quarterTime[] = [
-                'quarter' => $i,
+            $quarterTime['date'][] = intval($i);
+            $quarterTime['time_range'][intval($i)] = [
                 'start' => self::$formatTimestamp ? date(self::$format, $everyQuarterStartTime) : $everyQuarterStartTime,
                 'end' => self::$formatTimestamp ? date(self::$format, $everyQuarterEndTime) : $everyQuarterEndTime,
             ];
@@ -144,7 +158,11 @@ class RangeDate
         return $quarterTime;
     }
 
-    public function getYear():array
+    /**
+     * 获取年份
+     * @return array
+     */
+    public function getYear(): array
     {
         $year = self::$year;
         if (empty($year)) {
@@ -162,15 +180,15 @@ class RangeDate
         return $yearTime;
     }
 
-    private function baseYear($year):array
+    private function baseYear($year): array
     {
         $yearTime = [];
         $yearStart = mktime(0, 0, 0, 1, 1, $year);
         $yearEnd = mktime(0, 0, 0, 12, 31, $year) + $this->offset - 1;
-        $yearTime[] = [
-            'year' => $year,
-            'start' => $yearStart,
-            'end' => $yearEnd
+        $yearTime['date'] = $year;
+        $yearTime['time_range'][$year] = [
+            'start' => self::$formatTimestamp ? date(self::$format, $yearStart) : $yearStart,
+            'end' => self::$formatTimestamp ? date(self::$format, $yearEnd) : $yearEnd
         ];
         return $yearTime;
     }
